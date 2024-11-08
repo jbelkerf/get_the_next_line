@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:41:44 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/08 17:04:17 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/08 18:42:33 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-typedef struct a_list
-{
-    char    *content;
-    void    *next;
-}  t_list;
-
 char	*get_next_line(int fd);
+char    *ft_strjoin(char const *s1, char const *s2);
 void    ft_putstr(char *str);
+int check_nwln(char *str);
 #endif
