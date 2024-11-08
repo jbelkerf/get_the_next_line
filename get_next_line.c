@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/08 19:39:31 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:58:35 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,16 @@ char *get_next_line(int fd)
         line = ft_strjoin(line , buffer);
     }
     i = read(fd, buffer, BUFFER_SIZE);
-    while (!check_nwln(buffer) && i != -1)
+    while (!check_nwln(buffer) && i != -1 && i != 0)
     {
         line = ft_strjoin(line, buffer);
         i = read(fd, buffer, BUFFER_SIZE);
+    }
+    if (i == 0)
+        return (line);
+    if (i == -1)
+    {
+        return (line);
     }
     sp = ft_split(buffer);
     line = ft_strjoin(line, sp[0]);
