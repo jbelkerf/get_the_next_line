@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/08 18:48:30 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:36:56 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,41 @@ void    ft_putstr(char *str)
         write(1, &str[i], 1);
         i++;
     }
+}
+ 
+
+
+char    **ft_split(char const *s)
+{
+        char    **re;
+        int i;
+        int j;
+        int k;
+
+        k = 0;
+        i = 0;
+        j = 0;
+        if (s == NULL)
+                return (NULL);
+        while (s[i] && s[i] != '\n')
+            i++;
+        while (s[i + j + 1])
+            j++;
+        re = malloc(2 * sizeof(char *));
+        re[0] = malloc((i + 1) * sizeof(char));
+        re[1] = malloc((j + 1) * sizeof(char));
+        while (k < i)
+        {
+            re[0][k] = s[k];
+            k++;
+        }
+        re[0][k] = 0;
+        k = 0;
+        while(k < j)
+        {
+            re[1][k] = s[k + i + 1];
+            k++;
+        }
+        re[1][k] = 0;
+        return (re);
 }
