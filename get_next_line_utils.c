@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 12:24:18 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:49:25 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,32 @@ char    **ft_split(char const *s)
         }
         re[1][k] = 0;
         return (re);
+}
+
+char *check(char *buf, char **line)
+{
+        int     i;
+        char    **re;
+
+        i = 0;
+        while (buf[i])
+        {
+                if (buf[i] == '\n')
+                    break;
+                i++;
+        }
+        if (buf[i] == '\n')
+        {
+            re = ft_split(buf);
+            return (ft_strjoin(*line, re[0], ft_strlen(re[0])));
+            i = 0;
+            while (re[i])
+            {
+                buf[i] = re[1][i];
+                i++;
+            }
+            buf[i] = 0;
+            return (buf);
+        }
+        return (0);
 }

@@ -6,20 +6,35 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 12:26:05 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:53:01 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+//#define BUFFER_SIZE 2
+static char buffer[BUFFER_SIZE + 1];
 
 char *get_next_line(int fd)
 {
     char *line;
     char **sp;
+    char *buf;
     int i;
     int j;
-    static char buffer[BUFFER_SIZE + 1];
 
+    i = 0;
+    line = NULL;
+    buf = check(buffer, &line);
+    if (buf != 0)
+    {
+        while (buf[i])
+        {
+            buffer[i] = buf[i];
+            i++;
+        }
+        buffer[i] = 0;
+        return (line);
+    }
     if (fd < 2)
         return (NULL);
     line = NULL;
@@ -63,18 +78,18 @@ char *get_next_line(int fd)
     return (line);
 }
 
-// int main()
-// {
-//     int i;
-//     int j = 0;
-//     char *s;
+int main()
+{
+    int i;
+    int j = 0;
+    char *s;
     
-//     i = open("file.txt", O_RDONLY);
-//     while (j < 15)
-//     {
-//         s = get_next_line(i);
-//         ft_putstr(s);
-//         free(s);
-//         j++;
-//     }
-// }
+    i = open("file.txt", O_RDONLY);
+    while (j < 15)
+    {
+        s = get_next_line(i);
+        ft_putstr(s);
+        free(s);
+        j++;
+    }
+}
