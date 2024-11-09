@@ -6,15 +6,15 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/08 19:36:56 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 11:07:57 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t  ft_strlen(const char *str)
+int  ft_strlen(const char *str)
 {
-        size_t  i;
+        int  i;
 
         i = 0;
         while (str[i])
@@ -23,55 +23,29 @@ size_t  ft_strlen(const char *str)
         }
         return (i);
 }
-size_t  ft_strlcpy(char *dest, const char *src, size_t size)
-{
-        size_t  i;
 
-        if (size == 0)
-                return (ft_strlen(src));
-        i = 0;
-        while (i < size - 1 && src[i])
-        {
-                dest[i] = src[i];
-                i++;
-        }
-        dest[i] = 0;
-        return (ft_strlen(src));
-}
-size_t  ft_strlcat(char *dst, const char *src, size_t size)
-{
-        size_t  i;
-        size_t  j;
-
-        if (size == 0)
-                return (ft_strlen(src));
-        i = ft_strlen(dst);
-        j = 0;
-        if (ft_strlen(dst) >= size)
-                return (size + ft_strlen(src));
-        if (size != 0)
-        {
-                while (i < size - 1 && src[j])
-                {
-                        dst[i] = src[j];
-                        i++;
-                        j++;
-                }
-                dst[i] = 0;
-        }
-        return (i - j + ft_strlen(src));
-}
-char    *ft_strjoin(char const *s1, char const *s2)
+char    *ft_strjoin(char const *s1, char const *s2, int n)
 {
         char    *re;
+        int     i;
 
+        i = 0;
         if (s1 == NULL || s2 == NULL)
                 return (NULL);
-        re = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+        re = (char *)malloc((ft_strlen(s1) + n + 1) * sizeof(char));
         if (re == NULL)
                 return (NULL);
-        ft_strlcpy(re, s1, ft_strlen(s1) + 1);
-        ft_strlcat(re, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
+        while (s1[i])
+        {
+                re[i] = s1[i];
+                i++;
+        }
+        while (i < ft_strlen(s1) + n)
+        {
+                re[i] = s2[i - ft_strlen(s1)];
+                i++;
+        }
+        re[i] = 0;
         return (re);
 }
 
@@ -122,9 +96,9 @@ char    **ft_split(char const *s)
         while (s[i + j + 1])
             j++;
         re = malloc(2 * sizeof(char *));
-        re[0] = malloc((i + 1) * sizeof(char));
+        re[0] = malloc((i + 2) * sizeof(char));
         re[1] = malloc((j + 1) * sizeof(char));
-        while (k < i)
+        while (k <= i)
         {
             re[0][k] = s[k];
             k++;
