@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 17:37:32 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 18:36:39 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ char *get_next_line(int fd)
     char *buf;
     int i;
     int j;
+    int size = BUFFER_SIZE;
 
     i = 0;
     if (fd < 0)
     return (NULL);
     line = NULL;
-    buf = check(buffer, &line);
+    buf = check(buffer, &line, size);
     if (buf != 0)
     {
         while (buf[i])
@@ -87,6 +88,10 @@ char *get_next_line(int fd)
         buffer[j] = sp[1][j];
         j++;
     }
+    if (sp != 0)
+    free(sp[1]);
+    free(sp[0]);
+    free(sp);
     buffer[j] = 0;
     if (i == 0 || i == -1)
         buffer[0] = 0;

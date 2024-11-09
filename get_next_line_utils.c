@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 17:09:55 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 18:37:58 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char    *ft_strjoin(char  *s1, char  *s2, int n)
                 i++;
         }
         re[i] = 0;
-        if (*s1 != '\0')
+        if (*s1 !=  0)
                 free(s1);
         return (re);
 }
@@ -100,13 +100,13 @@ char    **ft_split(char const *s)
         return (re);
 }
 
-char *check(char *buf, char **line)
+char *check(char *buf, char **line, int size)
 {
         int     i;
         char    **re;
 
         i = 0;
-        while (buf[i])
+        while (buf[i] && i < size)
         {
                 if (buf[i] == '\n')
                     break;
@@ -123,6 +123,7 @@ char *check(char *buf, char **line)
                 i++;
             }
             buf[i] = 0;
+            arr_free(re);
             return (buf);
         }
         return (0);
