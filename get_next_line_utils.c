@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 11:07:57 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 12:24:18 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ int  ft_strlen(const char *str)
         return (i);
 }
 
-char    *ft_strjoin(char const *s1, char const *s2, int n)
+char    *ft_strjoin(char  *s1, char  *s2, int n)
 {
         char    *re;
         int     i;
 
         i = 0;
-        if (s1 == NULL || s2 == NULL)
-                return (NULL);
+        if (s1 == NULL)
+                s1 = "";
         re = (char *)malloc((ft_strlen(s1) + n + 1) * sizeof(char));
         if (re == NULL)
                 return (NULL);
@@ -40,12 +40,14 @@ char    *ft_strjoin(char const *s1, char const *s2, int n)
                 re[i] = s1[i];
                 i++;
         }
-        while (i < ft_strlen(s1) + n)
+        while (i < ft_strlen(s1) + n && s2[i - ft_strlen(s1)])
         {
                 re[i] = s2[i - ft_strlen(s1)];
                 i++;
         }
         re[i] = 0;
+        if (*s1 != '\0')
+                free(s1);
         return (re);
 }
 

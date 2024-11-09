@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 11:27:29 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 12:26:05 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,29 @@ char *get_next_line(int fd)
     int j;
     static char buffer[BUFFER_SIZE + 1];
 
-    line = "";
-    if (buffer[0] != 0)
-        line = ft_strjoin(line , buffer, BUFFER_SIZE);
-    i = read(fd, buffer, BUFFER_SIZE);
-    if (i == 0)
-        return ("");
-    while (!check_nwln(buffer) && i != -1 && i != 0)
+    if (fd < 2)
+        return (NULL);
+    line = NULL;
+    while (!check_nwln(buffer))
     {
+        i = 0;
         line = ft_strjoin(line , buffer, BUFFER_SIZE);
+        while (i <= BUFFER_SIZE)
+        {
+            buffer[i] = 0;
+            i++;
+        }
         i = read(fd, buffer, BUFFER_SIZE);
+        if (i == 0 || i == -1)
+        {
+            i = 0;
+            while (i <= BUFFER_SIZE)
+            {
+                buffer[i] = 0;
+                i++;
+            }
+            return (line);
+        }
     }
     if (i == 0)
         return (line);
@@ -50,15 +63,18 @@ char *get_next_line(int fd)
     return (line);
 }
 
-int main()
-{
-    int i;
-    int j = 0;
+// int main()
+// {
+//     int i;
+//     int j = 0;
+//     char *s;
     
-    i = open("file.txt", O_RDONLY);
-    while (j < 10)
-    {
-        ft_putstr(get_next_line(i));
-        j++;
-    }
-}
+//     i = open("file.txt", O_RDONLY);
+//     while (j < 15)
+//     {
+//         s = get_next_line(i);
+//         ft_putstr(s);
+//         free(s);
+//         j++;
+//     }
+// }
