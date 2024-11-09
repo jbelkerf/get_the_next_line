@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 15:49:25 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:09:55 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,6 @@ int check_nwln(char *str)
     return (0);
 }
 
-void    ft_putstr(char *str)
-{
-    int i;
-
-    if (str == NULL)
-        ft_putstr("{null}");
-    i = 0;
-    while (str[i])
-    {
-        write(1, &str[i], 1);
-        i++;
-    }
-}
- 
-
-
 char    **ft_split(char const *s)
 {
         char    **re;
@@ -131,7 +115,7 @@ char *check(char *buf, char **line)
         if (buf[i] == '\n')
         {
             re = ft_split(buf);
-            return (ft_strjoin(*line, re[0], ft_strlen(re[0])));
+            *line = ft_strjoin(*line, re[0], ft_strlen(re[0]));
             i = 0;
             while (re[i])
             {

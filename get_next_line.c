@@ -6,13 +6,27 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 15:53:01 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:12:13 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 //#define BUFFER_SIZE 2
 static char buffer[BUFFER_SIZE + 1];
+
+void    ft_putstr(char *str)
+{
+    int i;
+
+    if (str == NULL)
+        ft_putstr("{null}");
+    i = 0;
+    while (str[i])
+    {
+        write(1, &str[i], 1);
+        i++;
+    }
+}
 
 char *get_next_line(int fd)
 {
@@ -23,6 +37,8 @@ char *get_next_line(int fd)
     int j;
 
     i = 0;
+    if (fd < 0)
+    return (NULL);
     line = NULL;
     buf = check(buffer, &line);
     if (buf != 0)
