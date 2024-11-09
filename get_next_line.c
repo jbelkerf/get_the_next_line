@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 17:12:13 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/09 17:37:32 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 //#define BUFFER_SIZE 2
 static char buffer[BUFFER_SIZE + 1];
 
-void    ft_putstr(char *str)
+void    arr_free(char **arr)
 {
     int i;
-
-    if (str == NULL)
-        ft_putstr("{null}");
+    
     i = 0;
-    while (str[i])
+    while (i < 2)
     {
-        write(1, &str[i], 1);
+        free(arr[0]);
         i++;
     }
+    free(arr);
 }
 
 char *get_next_line(int fd)
@@ -94,18 +93,4 @@ char *get_next_line(int fd)
     return (line);
 }
 
-int main()
-{
-    int i;
-    int j = 0;
-    char *s;
-    
-    i = open("file.txt", O_RDONLY);
-    while (j < 15)
-    {
-        s = get_next_line(i);
-        ft_putstr(s);
-        free(s);
-        j++;
-    }
-}
+
