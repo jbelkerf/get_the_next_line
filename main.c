@@ -5,7 +5,7 @@ void    ft_putstr(char *str)
     int i;
 
     if (str == NULL)
-        ft_putstr("{null}");
+        ft_putstr("ghjk");
     i = 0;
     while (str[i])
     {
@@ -18,14 +18,12 @@ int main()
 {
     int i;
     int j = 0;
-    char *s;
     
-    i = open("file.txt", O_RDONLY);
-    while (j < 15)
+    i = open("multiple_nl.txt", O_RDONLY);
+    while (j < 10)
     {
-        s = get_next_line(i);
-        ft_putstr(s);
-        free(s);
+        ft_putstr(get_next_line(i));
+       // write(1, "\n", 1);
         j++;
     }
 }

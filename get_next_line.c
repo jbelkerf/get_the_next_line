@@ -6,13 +6,12 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/09 18:36:39 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:04:12 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 //#define BUFFER_SIZE 2
-static char buffer[BUFFER_SIZE + 1];
 
 void    arr_free(char **arr)
 {
@@ -27,18 +26,29 @@ void    arr_free(char **arr)
     free(arr);
 }
 
+void    empty_buf(char *buf, int size)
+{
+    int i;
+    
+    i = 0;
+    while (i < size && buf[i])
+    {
+        buf[i] = 0;
+        i++;
+    }
+}
+
 char *get_next_line(int fd)
 {
+    static char buffer[BUFFER_SIZE + 1];
     char *line;
-    char **sp;
     char *buf;
     int i;
-    int j;
     int size = BUFFER_SIZE;
 
-    i = 0;
     if (fd < 0)
-    return (NULL);
+        return (NULL);
+    i = 0;
     line = NULL;
     buf = check(buffer, &line, size);
     if (buf != 0)
@@ -51,51 +61,30 @@ char *get_next_line(int fd)
         buffer[i] = 0;
         return (line);
     }
-    if (fd < 2)
-        return (NULL);
-    line = NULL;
-    while (!check_nwln(buffer))
+    while (!buf)
     {
         i = 0;
         line = ft_strjoin(line , buffer, BUFFER_SIZE);
-        while (i <= BUFFER_SIZE)
-        {
-            buffer[i] = 0;
-            i++;
-        }
+        empty_buf(buffer, size);
         i = read(fd, buffer, BUFFER_SIZE);
         if (i == 0 || i == -1)
         {
-            i = 0;
-            while (i <= BUFFER_SIZE)
+            empty_buf(buffer, size);
+            return (line);
+        }
+        buf = check(buffer, &line, size);
+        if (buf != 0)
+        {
+            while (buf[i])
             {
-                buffer[i] = 0;
-                i++;
+               buffer[i] = buf[i];
+               i++;
             }
+            buffer[i] = 0;
             return (line);
         }
     }
-    if (i == 0)
-        return (line);
-    if (i == -1)
-        return (line);
-    sp = ft_split(buffer);
-    line = ft_strjoin(line, sp[0], ft_strlen(sp[0]));
-    j = 0;
-    
-    while (j < BUFFER_SIZE && sp[1][j])
-    {
-        buffer[j] = sp[1][j];
-        j++;
-    }
-    if (sp != 0)
-    free(sp[1]);
-    free(sp[0]);
-    free(sp);
-    buffer[j] = 0;
-    if (i == 0 || i == -1)
-        buffer[0] = 0;
-    return (line);
+    return (NULL);
 }
 
 
