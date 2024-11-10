@@ -13,16 +13,16 @@ void    ft_putstr(char *str)
         i++;
     }
 }
-
+#include <stdio.h>
 int main()
 {
     int i;
     int j = 0;
     
-    i = open("multiple_nl.txt", O_RDONLY);
+    i = open("file.txt", O_RDONLY);
     while (j < 10)
     {
-        ft_putstr(get_next_line(i));
+        printf("%s",get_next_line(i));
        // write(1, "\n", 1);
         j++;
     }

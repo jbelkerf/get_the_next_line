@@ -6,69 +6,85 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/10 16:32:32 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:02:11 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 //#define BUFFER_SIZE 2
 
-
-void    empty_buf(char *buf, int size)
+int check(char *buf)
 {
-    int i;
+        int i;
+
+        i = 0;
+        if (buf == NULL)
+                return (0);
+        while (buf[i])
+        {
+                if (buf[i] == '\n')
+                        return (i + 1);
+                i++;
+        }
+        return (0);
+}
+
+char *do_the_job(char **buffer, char **line, char *tmp, int separator)
+{
+    *line = ft_substr(*buffer, 0, separator);
+    *buffer = ft_substr(*buffer, separator, BUFFER_SIZE);
+    //free(tmp);
+    tmp = *buffer;
+    return (*line);
+}
+char *do_the_job2(char **buffer, char **line, int separator)
+{
+    char *tmp;
     
-    i = 0;
-    while (i < size && buf[i])
-    {
-        buf[i] = 0;
-        i++;
-    }
+    tmp = *line;
+    *line = ft_substr(tmp, 0, separator);
+    *buffer = ft_substr(tmp, separator, BUFFER_SIZE);
+    tmp = *buffer;
+    //free(tmp);
+    return (*line);
 }
 
 char *get_next_line(int fd)
 {
-    static char buffer[BUFFER_SIZE + 1];
+    static char *buffer;
+    char *tmp;
     char *line;
-    char *buf;
     int i;
-    int size = BUFFER_SIZE;
+    int read_bytes;
 
-    if (fd < 0)
+    if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    i = 0;
     line = NULL;
-    buf = check(buffer, &line, size);
-    if (buf != 0)
+    tmp = buffer;
+    i = check(buffer);
+    if (i)
+        return(do_the_job(&buffer, &line, tmp, i));
+    else
+        line = buffer;
+    while (1)
     {
-        while (buf[i])
+        buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+        if (buffer == NULL)
+            return (NULL);
+        read_bytes = read(fd, buffer, BUFFER_SIZE);
+        buffer[read_bytes] = 0;
+        if (read_bytes == -1)
+            return (NULL);
+        if (read_bytes == 0)
         {
-            buffer[i] = buf[i];
-            i++;
+            //free(buffer);
+                return (line);
         }
-        buffer[i] = 0;
-        return (line);
-    }
-    while (!buf)
-    {
-        i = 0;
-        line = ft_strjoin(line , buffer, BUFFER_SIZE);
-        empty_buf(buffer, size);
-        i = read(fd, buffer, BUFFER_SIZE);
-        if (i == 0 || i == -1)
+        line = ft_strjoin(line, buffer);
+        i = check(line);
+        if (i)
         {
-            empty_buf(buffer, size);
-            return (line);
-        }
-        buf = check(buffer, &line, size);
-        if (buf != 0)
-        {
-            while (buf[i])
-            {
-               buffer[i] = buf[i];
-               i++;
-            }
-            buffer[i] = 0;
+            line = do_the_job2(&buffer, &line, i);
             return (line);
         }
     }

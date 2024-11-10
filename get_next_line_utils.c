@@ -6,11 +6,12 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/10 16:29:12 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/10 22:30:38 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 
 int  ft_strlen(const char *str)
 {
@@ -23,99 +24,87 @@ int  ft_strlen(const char *str)
         }
         return (i);
 }
-
-char    *ft_strjoin(char  *s1, char  *s2, int n)
+char    *ft_strdup(const char *s)
 {
         char    *re;
-        int     i;
 
-        i = 0;
-        if (s1 == NULL && *s2 == 0)
-                return (NULL);
-        if (s1 == NULL)
-                s1 = "";
-        re = (char *)malloc((ft_strlen(s1) + n + 1) * sizeof(char));
+        re = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
         if (re == NULL)
                 return (NULL);
-        while (s1[i])
-        {
-                re[i] = s1[i];
-                i++;
-        }
-        while (i < ft_strlen(s1) + n && i - ft_strlen(s1) < n)
-        {
-                re[i] = s2[i - ft_strlen(s1)];
-                i++;
-        }
-        re[i] = 0;
-        if (*s1 !=  0)
-                free(s1);
+        ft_strlcpy(re, s, ft_strlen(s) + 1);
         return (re);
 }
 
-
-char    **ft_split(char const *s, int size)
+int  ft_strlcpy(char *dest, const char *src, int size)
 {
-        char    **re;
+        int  i;
+
+        if (size == 0)
+                return (ft_strlen(src));
+        i = 0;
+        while (i < size - 1 && src[i])
+        {
+                dest[i] = src[i];
+                i++;
+        }
+        dest[i] = 0;
+        return (ft_strlen(src));
+}
+int  ft_strlcat(char *dst, const char *src, int size)
+{
         int i;
         int j;
-        int k;
 
-        k = 0;
-        i = 0;
+        if (size == 0)
+                return (ft_strlen(src));
+        i = ft_strlen(dst);
         j = 0;
+        if (ft_strlen(dst) >= size)
+                return (size + ft_strlen(src));
+        if (size != 0)
+        {
+                while (i < size - 1 && src[j])
+                {
+                        dst[i] = src[j];
+                        i++;
+                        j++;
+                }
+                dst[i] = 0;
+        }
+        return (i - j + ft_strlen(src));
+}
+char    *ft_substr(char const *s, unsigned int start, size_t len)
+{
+        unsigned int    len_s;
+        char                    *sub;
+
         if (s == NULL)
                 return (NULL);
-        while (s[i] != '\n' && i < size)
-            i++;
-        while (i + j < size)
-            j++;
-        re = malloc(2 * sizeof(char *));
-        re[0] = malloc((i + 2) * sizeof(char));
-        re[1] = malloc((j + 1) * sizeof(char));
-        while (k <= i)
-        {
-            re[0][k] = s[k];
-            k++;
-        }
-        re[0][k] = 0;
-        k = 0;
-        while(k < j)
-        {
-            re[1][k] = s[k + i + 1];
-            k++;
-        }
-        re[1][k] = 0;
-        return (re);
+        len_s = ft_strlen(s);
+        if (len_s < start)
+                return (ft_strdup(""));
+        if (len_s - start < len)
+                len = len_s - start;
+        sub = (char *)malloc((len + 1) * sizeof(char));
+        if (sub == NULL)
+                return (NULL);
+        ft_strlcpy(sub, s + start, len + 1);
+        return (sub);
 }
-
-char *check(char *buf, char **line, int size)
+char    *ft_strjoin(char *s1, char *s2)
 {
-        int     i;
-        char    **re;
+        char    *re;
 
-        i = 0;
-        while (buf[i] && i < size)
-        {
-                if (buf[i] == '\n')
-                    break;
-                i++;
-        }
-        if (buf[i] == '\n')
-        {
-            re = ft_split(buf, size);
-            *line = ft_strjoin(*line, re[0], ft_strlen(re[0]));
-            i = 0;
-            while (re[i])
-            {
-                buf[i] = re[1][i];
-                i++;
-            }
-            free(re[0]);
-            free(re[1]);
-            free(re);
-            buf[i] = 0;
-            return (buf);
-        }
-        return (0);
+        if (s1 == NULL)
+                s1 = "";
+        re = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+        if (re == NULL)
+                return (NULL);
+        ft_strlcpy(re, s1, ft_strlen(s1) + 1);
+        ft_strlcat(re, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
+        if (*s1 != 0)
+                free(s1);
+        if (*s2)
+                free(s2);
+        return (re);
 }
