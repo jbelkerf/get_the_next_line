@@ -6,25 +6,13 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/10 16:04:12 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:32:32 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 //#define BUFFER_SIZE 2
 
-void    arr_free(char **arr)
-{
-    int i;
-    
-    i = 0;
-    while (i < 2)
-    {
-        free(arr[0]);
-        i++;
-    }
-    free(arr);
-}
 
 void    empty_buf(char *buf, int size)
 {

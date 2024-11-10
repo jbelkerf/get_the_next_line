@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:41:44 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/10 15:07:03 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:32:54 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-
-void    arr_free(char **arr);
 char    *ft_strdup(const char *s);
 char	*get_next_line(int fd);
 char    *ft_strjoin(char *s1, char *s2, int n);
