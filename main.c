@@ -13,17 +13,20 @@ void    ft_putstr(char *str)
         i++;
     }
 }
+#include <fcntl.h>
 #include <stdio.h>
 int main()
 {
     int i;
     int j = 0;
+    //int c;
     
     i = open("file.txt", O_RDONLY);
-    while (j < 10)
+    while (j < 15)
     {
+         //c = j + '0' + 1;
+             //  write(1, , 1);
         printf("%s",get_next_line(i));
-       // write(1, "\n", 1);
         j++;
     }
 }

@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/10 22:30:38 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:40:50 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,7 @@ int  ft_strlcpy(char *dest, const char *src, int size)
         dest[i] = 0;
         return (ft_strlen(src));
 }
-int  ft_strlcat(char *dst, const char *src, int size)
-{
-        int i;
-        int j;
 
-        if (size == 0)
-                return (ft_strlen(src));
-        i = ft_strlen(dst);
-        j = 0;
-        if (ft_strlen(dst) >= size)
-                return (size + ft_strlen(src));
-        if (size != 0)
-        {
-                while (i < size - 1 && src[j])
-                {
-                        dst[i] = src[j];
-                        i++;
-                        j++;
-                }
-                dst[i] = 0;
-        }
-        return (i - j + ft_strlen(src));
-}
 char    *ft_substr(char const *s, unsigned int start, size_t len)
 {
         unsigned int    len_s;
@@ -91,20 +69,34 @@ char    *ft_substr(char const *s, unsigned int start, size_t len)
         ft_strlcpy(sub, s + start, len + 1);
         return (sub);
 }
-char    *ft_strjoin(char *s1, char *s2)
-{
-        char    *re;
 
+char	*ft_strjoin(char  *s1, char  *s2)
+{
+	char	*re;
+	int		i;
+	int		j;
+
+	j = 0;
+	i = 0;
         if (s1 == NULL)
-                s1 = "";
-        re = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-        if (re == NULL)
-                return (NULL);
-        ft_strlcpy(re, s1, ft_strlen(s1) + 1);
-        ft_strlcat(re, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
-        if (*s1 != 0)
-                free(s1);
-        if (*s2)
-                free(s2);
+                s1 = ft_strdup("");
+	re = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (re == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		re[j] = s1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		re[j] = s2[i];
+		i++;
+		j++;
+	}
+	re[j] = 0;
+        free(s1);
         return (re);
 }

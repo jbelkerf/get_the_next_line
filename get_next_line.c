@@ -6,13 +6,14 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/10 23:02:11 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:46:14 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//#define BUFFER_SIZE 2
-
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 2
+#endif
 int check(char *buf)
 {
         int i;
@@ -29,62 +30,104 @@ int check(char *buf)
         return (0);
 }
 
-char *do_the_job(char **buffer, char **line, char *tmp, int separator)
+char	*ft_strchr(const char *s, int c)
 {
-    *line = ft_substr(*buffer, 0, separator);
-    *buffer = ft_substr(*buffer, separator, BUFFER_SIZE);
-    //free(tmp);
-    tmp = *buffer;
+	char	*p;
+
+	p = (char *)s;
+	while (*p)
+	{
+		if (*p == (char)c)
+			return (p);
+		p++;
+	}
+	if ((char)c == 0)
+		return (p);
+	else
+		return (NULL);
+}
+
+
+char *do_the_job(char **left, char **line, int separator)
+{
+    char *tmp;
+
+    tmp = *left;
+    *line = ft_substr(*left, 0, separator);
+    *left = ft_substr(*left, separator, BUFFER_SIZE);
+    free(tmp);
+    tmp = NULL;
     return (*line);
 }
-char *do_the_job2(char **buffer, char **line, int separator)
+char *do_the_job2(char **left, char **line, int separator)
 {
     char *tmp;
     
     tmp = *line;
     *line = ft_substr(tmp, 0, separator);
-    *buffer = ft_substr(tmp, separator, BUFFER_SIZE);
-    tmp = *buffer;
-    //free(tmp);
+    *left = ft_substr(tmp, separator, BUFFER_SIZE);
+    free(tmp);
+    tmp = NULL;
     return (*line);
 }
 
 char *get_next_line(int fd)
 {
-    static char *buffer;
-    char *tmp;
+    static char *left;
+    char buffer[BUFFER_SIZE + 1];
     char *line;
+    char *tmp;
     int i;
     int read_bytes;
 
+    line = NULL;
+    i = -1;
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    line = NULL;
-    tmp = buffer;
-    i = check(buffer);
-    if (i)
-        return(do_the_job(&buffer, &line, tmp, i));
-    else
-        line = buffer;
+        if (left != NULL)
+        {
+            if (*left != 0)
+            {
+                i = check(left);
+            }
+        }
+    if (i > 0)
+    {
+        tmp = left;
+        return(do_the_job(&left, &line,i));
+    }
+    else if (i == 0)
+    {
+        line = ft_strjoin(line, left);
+        free(left);
+        left = NULL;
+    }
     while (1)
     {
-        buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-        if (buffer == NULL)
-            return (NULL);
         read_bytes = read(fd, buffer, BUFFER_SIZE);
-        buffer[read_bytes] = 0;
         if (read_bytes == -1)
             return (NULL);
         if (read_bytes == 0)
         {
-            //free(buffer);
-                return (line);
+            if (left != NULL)
+                if (left != 0)
+                {
+                    line = ft_strjoin(line, left);
+                    free(left);
+                    left = NULL;
+                }
+                if (line == NULL || *line == 0)
+                    return (NULL);
+            return (line);
         }
+        buffer[read_bytes] = 0;
         line = ft_strjoin(line, buffer);
         i = check(line);
         if (i)
         {
-            line = do_the_job2(&buffer, &line, i);
+            line = do_the_job2(&left, &line, i);
+            if (line == NULL || *line == 0)
+                    return (NULL);
             return (line);
         }
     }
