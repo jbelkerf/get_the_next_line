@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/11 18:46:14 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:18:20 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,13 @@ char *get_next_line(int fd)
     if (i > 0)
     {
         tmp = left;
-        return(do_the_job(&left, &line,i));
+        line = do_the_job(&left, &line,i);
+        if (*left == 0)
+        {
+            free(left);
+            left = NULL;
+        }
+        return(line);
     }
     else if (i == 0)
     {
@@ -128,6 +134,11 @@ char *get_next_line(int fd)
             line = do_the_job2(&left, &line, i);
             if (line == NULL || *line == 0)
                     return (NULL);
+            if (*left == 0)
+            {
+                free(left);
+                left = NULL;
+            }
             return (line);
         }
     }

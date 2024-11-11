@@ -29,4 +29,6 @@ int main()
         printf("%s",get_next_line(i));
         j++;
     }
+    while (1)
+    {}
 }

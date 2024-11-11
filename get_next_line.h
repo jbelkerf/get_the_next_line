@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:41:44 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/11 18:35:43 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/11 20:08:04 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define GET_NEXT_LINE_H
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 2
