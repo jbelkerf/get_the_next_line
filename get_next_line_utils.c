@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/11 18:40:50 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:50:01 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ char	*ft_strjoin(char  *s1, char  *s2)
 	}
 	re[j] = 0;
         free(s1);
+        s1 = NULL;
         return (re);
 }

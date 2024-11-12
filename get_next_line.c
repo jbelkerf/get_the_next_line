@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/12 18:26:13 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:20:38 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 2
 #endif
+
+void free_p(char **p)
+{
+    if (*p != NULL)
+    {
+        free(*p);
+        *p = NULL;
+    }
+}
 int check(char *buf)
 {
         int i;
@@ -80,31 +89,30 @@ char *get_next_line(int fd)
         tmp = left;
         line = do_the_job(&left, &line,i, 1);
         if (*left == 0)
-        {
-            free(left);
-            left = NULL;
-        }
+            free_p(&left);
         return(line);
     }
     else if (i == 0)
     {
         line = ft_strjoin(line, left);
-        free(left);
-        left = NULL;
+        free_p(&left);
     }
     while (1)
     {
         read_bytes = read(fd, buffer, BUFFER_SIZE);
         if (read_bytes == -1)
+        {
+            free_p(&line);
+            free_p(&left);
             return (NULL);
+        }
         if (read_bytes == 0)
         {
             if (left != NULL)
                 if (left != 0)
                 {
                     line = ft_strjoin(line, left);
-                    free(left);
-                    left = NULL;
+                    free_p(&left);
                 }
                 if (line == NULL || *line == 0)
                     return (NULL);
@@ -119,10 +127,7 @@ char *get_next_line(int fd)
             if (line == NULL || *line == 0)
                     return (NULL);
             if (*left == 0)
-            {
-                free(left);
-                left = NULL;
-            }
+                free_p(&left);
             return (line);
         }
     }
