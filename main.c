@@ -19,16 +19,17 @@ int main()
 {
     int i;
     int j = 0;
+    char *str;
     //int c;
     
-    i = open("file.txt", O_RDONLY);
+    i = open("read_error.txt", O_RDONLY);
     while (j < 15)
     {
          //c = j + '0' + 1;
              //  write(1, , 1);
-        printf("%s",get_next_line(i));
+             str = get_next_line(i);
+        printf("%s",str);
+        free(str);
         j++;
     }
-    while (1)
-    {}
 }

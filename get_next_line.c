@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/11 20:18:20 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:26:13 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,30 @@ int check(char *buf)
         return (0);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	char	*p;
-
-	p = (char *)s;
-	while (*p)
-	{
-		if (*p == (char)c)
-			return (p);
-		p++;
-	}
-	if ((char)c == 0)
-		return (p);
-	else
-		return (NULL);
-}
-
-
-char *do_the_job(char **left, char **line, int separator)
+char *do_the_job(char **left, char **line, int separator, int f)
 {
     char *tmp;
 
-    tmp = *left;
-    *line = ft_substr(*left, 0, separator);
-    *left = ft_substr(*left, separator, BUFFER_SIZE);
-    free(tmp);
-    tmp = NULL;
-    return (*line);
+    if (f == 1)
+    {
+        tmp = *left;
+        *line = ft_substr(*left, 0, separator);
+        *left = ft_substr(*left, separator, BUFFER_SIZE);
+        free(tmp);
+        tmp = NULL;
+        return (*line);
+    }
+    else
+    {
+        tmp = *line;
+        *line = ft_substr(tmp, 0, separator);
+       *left = ft_substr(tmp, separator, BUFFER_SIZE);
+       free(tmp);
+        tmp = NULL;
+      return (*line);
+    }
 }
-char *do_the_job2(char **left, char **line, int separator)
-{
-    char *tmp;
-    
-    tmp = *line;
-    *line = ft_substr(tmp, 0, separator);
-    *left = ft_substr(tmp, separator, BUFFER_SIZE);
-    free(tmp);
-    tmp = NULL;
-    return (*line);
-}
+
 
 char *get_next_line(int fd)
 {
@@ -94,7 +78,7 @@ char *get_next_line(int fd)
     if (i > 0)
     {
         tmp = left;
-        line = do_the_job(&left, &line,i);
+        line = do_the_job(&left, &line,i, 1);
         if (*left == 0)
         {
             free(left);
@@ -131,7 +115,7 @@ char *get_next_line(int fd)
         i = check(line);
         if (i)
         {
-            line = do_the_job2(&left, &line, i);
+            line = do_the_job(&left, &line, i, 2);
             if (line == NULL || *line == 0)
                     return (NULL);
             if (*left == 0)
