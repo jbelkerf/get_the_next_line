@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/12 19:20:38 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:13:43 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,38 @@ char *do_the_job(char **left, char **line, int separator, int f)
     }
 }
 
+int check_left(char **left, char **line)
+{
+    int i;
+
+    i = -1;
+    if (*left != NULL)
+    {
+        if (**left != 0)
+        {
+            i = check(*left);
+        }
+    }
+    if (i > 0)
+    {
+        *line = do_the_job(left, line,i, 1);
+        if (**left == 0)
+            free_p(left);
+        return(1);
+    }
+    else if (i == 0)
+    {
+        *line = ft_strjoin(*line, *left);
+        free_p(left);
+    }
+    return (0);
+}
 
 char *get_next_line(int fd)
 {
     static char *left;
     char buffer[BUFFER_SIZE + 1];
     char *line;
-    char *tmp;
     int i;
     int read_bytes;
 
@@ -77,26 +102,8 @@ char *get_next_line(int fd)
     i = -1;
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-        if (left != NULL)
-        {
-            if (*left != 0)
-            {
-                i = check(left);
-            }
-        }
-    if (i > 0)
-    {
-        tmp = left;
-        line = do_the_job(&left, &line,i, 1);
-        if (*left == 0)
-            free_p(&left);
-        return(line);
-    }
-    else if (i == 0)
-    {
-        line = ft_strjoin(line, left);
-        free_p(&left);
-    }
+    if (check_left(&left, &line))
+        return (line);
     while (1)
     {
         read_bytes = read(fd, buffer, BUFFER_SIZE);

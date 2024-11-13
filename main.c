@@ -22,8 +22,8 @@ int main()
     char *str;
     //int c;
     
-    i = open("read_error.txt", O_RDONLY);
-    while (j < 15)
+    i = open("file.txt", O_RDONLY);
+    while (j < 19)
     {
          //c = j + '0' + 1;
              //  write(1, , 1);
