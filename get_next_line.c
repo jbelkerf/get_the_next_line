@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/13 17:04:14 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/13 18:55:22 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,28 +110,16 @@ char	*get_next_line(int fd)
 		if (read_bytes == -1)
 			return (free_p(&line));
 		if (read_bytes == 0)
-		{
-			if (left != NULL)
-			{
-				line = ft_strjoin(line, left);
-				free_p(&left);
-			}
-			if (line == NULL || *line == 0)
-				return (NULL);
 			return (line);
-		}
 		buffer[read_bytes] = 0;
 		line = ft_strjoin(line, buffer);
 		read_bytes = check(line);
 		if (read_bytes)
 		{
 			line = do_the_job(&left, &line, read_bytes, 2);
-			if (line == NULL || *line == 0)
-				return (NULL);
 			if (*left == 0)
 				free_p(&left);
 			return (line);
 		}
 	}
-	return (NULL);
 }
