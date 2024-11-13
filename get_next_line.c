@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/13 16:13:43 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:19:27 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 #define BUFFER_SIZE 2
 #endif
 
-void free_p(char **p)
+void *free_p(char **p)
 {
     if (*p != NULL)
     {
         free(*p);
         *p = NULL;
     }
+    return (NULL);
 }
 int check(char *buf)
 {
@@ -95,11 +96,9 @@ char *get_next_line(int fd)
     static char *left;
     char buffer[BUFFER_SIZE + 1];
     char *line;
-    int i;
     int read_bytes;
 
     line = NULL;
-    i = -1;
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
     if (check_left(&left, &line))
@@ -108,11 +107,7 @@ char *get_next_line(int fd)
     {
         read_bytes = read(fd, buffer, BUFFER_SIZE);
         if (read_bytes == -1)
-        {
-            free_p(&line);
-            free_p(&left);
-            return (NULL);
-        }
+            return (free_p(&line));
         if (read_bytes == 0)
         {
             if (left != NULL)
@@ -127,10 +122,10 @@ char *get_next_line(int fd)
         }
         buffer[read_bytes] = 0;
         line = ft_strjoin(line, buffer);
-        i = check(line);
-        if (i)
+        read_bytes = check(line);
+        if (read_bytes)
         {
-            line = do_the_job(&left, &line, i, 2);
+            line = do_the_job(&left, &line, read_bytes, 2);
             if (line == NULL || *line == 0)
                     return (NULL);
             if (*left == 0)
