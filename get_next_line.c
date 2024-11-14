@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 12:16:21 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:18:50 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,6 @@
 # define BUFFER_SIZE 2
 #endif
 
-void	*free_p(char **p)
-{
-	if (*p != NULL)
-	{
-		free(*p);
-		*p = NULL;
-	}
-	return (NULL);
-}
 
 int	check(char *buf)
 {

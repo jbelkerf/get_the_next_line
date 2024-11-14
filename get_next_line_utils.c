@@ -6,11 +6,21 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 11:26:38 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:18:58 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*free_p(char **p)
+{
+	if (*p != NULL)
+	{
+		free(*p);
+		*p = NULL;
+	}
+	return (NULL);
+}
 
 int	ft_strlen(const char *str)
 {
