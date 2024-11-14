@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 12:18:58 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:40:17 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,10 @@ char	*ft_strdup(const char *s)
 	return (re);
 }
 
-
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	unsigned int	len_s;
-	unsigned int i;
+	unsigned int	i;
 	char			*sub;
 
 	i = 0;
