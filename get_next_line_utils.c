@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 12:40:17 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:35:26 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,25 +86,16 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	j = 0;
-	i = 0;
+	j = -1;
+	i = -1;
 	if (s1 == NULL)
 		s1 = ft_strdup("");
 	re = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (re == NULL)
 		return (NULL);
-	while (s1[j])
-	{
+	while (s1[++j])
 		re[j] = s1[j];
-		j++;
-	}
-	while (s2[i])
-	{
+	while (s2[++i])
 		re[j + i] = s2[i];
-		i++;
-	}
-	re[j + i] = 0;
-	free(s1);
-	s1 = NULL;
-	return (re);
+	return (re[j + i] = 0, free(s1), s1 = NULL, re);
 }

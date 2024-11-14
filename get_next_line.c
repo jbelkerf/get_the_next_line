@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 12:59:28 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:41:22 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,14 @@ char	*do_the_job(char **left, char **line, int separator, int f)
 		tmp = *left;
 		*line = ft_substr(*left, 0, separator);
 		*left = ft_substr(*left, separator, BUFFER_SIZE);
-		free(tmp);
-		tmp = NULL;
-		return (*line);
 	}
 	else
 	{
 		tmp = *line;
 		*line = ft_substr(tmp, 0, separator);
 		*left = ft_substr(tmp, separator, BUFFER_SIZE);
-		free(tmp);
-		tmp = NULL;
-		return (*line);
 	}
+	return (free(tmp), tmp = NULL, *line);
 }
 
 int	check_left(char **left, char **line)
