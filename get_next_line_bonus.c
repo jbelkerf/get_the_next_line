@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:22:23 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 15:11:38 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:29:27 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,30 @@ int	check_left(char **left, char **line)
 	return (0);
 }
 
-char	*read_line(int fd, char *buffer, char *line, char **left)
+void free_node(int fd, t_list **head)
+{
+    t_list *m_in;
+    t_list *prev;
+
+    m_in = *head;
+    prev = m_in;
+    while (m_in)
+    {
+        if (m_in->fd == fd)
+        {
+            if (prev == m_in)
+                *head = m_in->next;
+            else
+            {
+                prev->next = m_in->next;
+            }
+            free(m_in);
+        }
+        prev = m_in;
+        m_in = m_in->next;
+    }
+}
+char	*read_line(int fd, char *buffer, char *line, char **left, t_list **head)
 {
 	int	read_bytes;
 
@@ -91,6 +114,7 @@ char	*read_line(int fd, char *buffer, char *line, char **left)
 		if (read_bytes == -1 || read_bytes == 0)
 		{
 			free_p(&buffer);
+            free_node(fd, head);
 			if (read_bytes == -1)
 				return (free_p(&line));
 			return (line);
@@ -119,7 +143,7 @@ char *get_next_line(int fd)
     line = NULL;
     if (check_left(&left, &line))
 		return (line);
-	line = read_line(fd, buffer, line, &left);
+	line = read_line(fd, buffer, line, &left, &head);
 	if (left != NULL)
 	{
 		if (*left == 0)
