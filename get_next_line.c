@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 11:49:23 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:16:21 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,11 @@ int	check_left(char **left, char **line)
 	return (0);
 }
 
-char	*get_next_line(int fd)
+char *read_line(int fd, char *buffer, char *line, char **left)
 {
-	static char	*left;
-	char		*buffer;
-	char		*line;
-	int			read_bytes;
+	int read_bytes;
 
-	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (check_left(&left, &line))
-		return (line);
+
 	while (1)
 	{
 		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -126,10 +119,25 @@ char	*get_next_line(int fd)
 		read_bytes = check(line);
 		if (read_bytes)
 		{
-			line = do_the_job(&left, &line, read_bytes, 2);
-			if (*left == 0)
-				free_p(&left);
+			line = do_the_job(left, &line, read_bytes, 2);
+			if (**left == 0)
+				free_p(left);
 			return (line);
 		}
 	}
+}
+char	*get_next_line(int fd)
+{
+	static char	*left;
+	char		*buffer;
+	char		*line;
+	//int			read_bytes;
+
+	line = NULL;
+	buffer = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (check_left(&left, &line))
+		return (line);
+	return (read_line(fd, buffer, line, &left));
 }
