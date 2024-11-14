@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:58:48 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/13 17:24:30 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:26:38 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,31 @@ int	ft_strlen(const char *str)
 char	*ft_strdup(const char *s)
 {
 	char	*re;
+	int		i;
 
-	re = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	i = 0;
+	while (s[i])
+		i++;
+	re = (char *)malloc((i + 1) * sizeof(char));
 	if (re == NULL)
 		return (NULL);
-	ft_strlcpy(re, s, ft_strlen(s) + 1);
+	while (s[i])
+	{
+		re[i] = s[i];
+		i++;
+	}
+	re[i] = 0;
 	return (re);
 }
 
-int	ft_strlcpy(char *dest, const char *src, int size)
-{
-	int	i;
-
-	if (size == 0)
-		return (ft_strlen(src));
-	i = 0;
-	while (i < size - 1 && src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (ft_strlen(src));
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	unsigned int	len_s;
+	unsigned int i;
 	char			*sub;
 
+	i = 0;
 	if (s == NULL)
 		return (NULL);
 	len_s = ft_strlen(s);
@@ -66,7 +62,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	sub = (char *)malloc((len + 1) * sizeof(char));
 	if (sub == NULL)
 		return (NULL);
-	ft_strlcpy(sub, s + start, len + 1);
+	while (i < len)
+	{
+		sub[i] = s[start + i];
+		i++;
+	}
+	sub[i] = 0;
 	return (sub);
 }
 

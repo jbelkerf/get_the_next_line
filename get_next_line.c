@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:40:04 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/13 18:55:22 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:49:23 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	check_left(char **left, char **line)
 char	*get_next_line(int fd)
 {
 	static char	*left;
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	char		*line;
 	int			read_bytes;
 
@@ -106,13 +106,23 @@ char	*get_next_line(int fd)
 		return (line);
 	while (1)
 	{
+		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (buffer == NULL)
+			return (NULL);
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
+		{
+			free_p(&buffer);
 			return (free_p(&line));
+		}
 		if (read_bytes == 0)
+		{
+			free_p(&buffer);
 			return (line);
+		}
 		buffer[read_bytes] = 0;
 		line = ft_strjoin(line, buffer);
+		free_p(&buffer);
 		read_bytes = check(line);
 		if (read_bytes)
 		{
