@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:42:20 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 15:10:30 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:10:56 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct a_list
     struct a_list *next;
 }  t_list;
 
-t_list *check_fd_node(int fd, t_list **head);
+char **check_fd_node(int fd, t_list **head);
 char	*ft_strdup(const char *s);
 void	*free_p(char **p);
 char	*get_next_line(int fd);

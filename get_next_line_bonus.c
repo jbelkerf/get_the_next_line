@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:22:23 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 15:29:27 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:21:57 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void free_node(int fd, t_list **head)
                 prev->next = m_in->next;
             }
             free(m_in);
+			return ;
         }
         prev = m_in;
         m_in = m_in->next;
@@ -130,24 +131,22 @@ char	*read_line(int fd, char *buffer, char *line, char **left, t_list **head)
 char *get_next_line(int fd)
 {
     char *buffer;
-    char *left;
+    char **left;
     static t_list *head;
-    t_list *list;
     char *line;
 
     buffer = NULL;
-    if (fd < 0 || fd > 1024)
+    if (fd < 0 || fd >= 1000)
     return (NULL);
-    list = check_fd_node(fd, &head);
-    left = list->left;
+    left = check_fd_node(fd, &head);
     line = NULL;
-    if (check_left(&left, &line))
+    if (check_left(left, &line))
 		return (line);
-	line = read_line(fd, buffer, line, &left, &head);
-	if (left != NULL)
+	line = read_line(fd, buffer, line, left, &head);
+	if (*left != NULL)
 	{
-		if (*left == 0)
-			free_p(&left);
+		if (**left == 0)
+			free_p(left);
 	}
 	return (line);
 }

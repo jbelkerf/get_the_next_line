@@ -6,13 +6,13 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:51:53 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/14 15:07:31 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:08:52 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <stdlib.h>
-t_list *check_fd_node(int fd, t_list **head)
+char **check_fd_node(int fd, t_list **head)
 {
     t_list *m_in;
     t_list *new;
@@ -21,7 +21,7 @@ t_list *check_fd_node(int fd, t_list **head)
     while (m_in)
     {
         if (m_in->fd == fd)
-            return (m_in);
+            return (&(m_in->left));
         m_in = m_in->next;
     }
     new = (t_list *)malloc(sizeof(t_list));
@@ -30,7 +30,7 @@ t_list *check_fd_node(int fd, t_list **head)
     new->next = NULL;
     new->next = *head;
     *head = new;
-    return (new);
+    return (&(new->left));
 }
 void	*free_p(char **p)
 {
