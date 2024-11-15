@@ -17,19 +17,27 @@ void    ft_putstr(char *str)
 #include <stdio.h>
 int main()
 {
-    int i;
-    int j = 0;
-    char *str;
+    int fd1, fd2;
+    //int j = 0;
+   // char *str;
     //int c;
     
-    i = open("file.txt", O_RDONLY);
-    while (j < 19)
-    {
-         //c = j + '0' + 1;
-             //  write(1, , 1);
-             str = get_next_line(i);
-        printf("%s",str);
-        free(str);
-        j++;
-    }
+    fd1 = open("file.txt", O_RDONLY);
+    fd2 = open("file.txt", O_RDONLY);
+
+   printf("%s",get_next_line(fd1));
+   printf("%s",get_next_line(fd2));
+   printf("%s",get_next_line(fd1));
+   printf("%s",get_next_line(fd2));
+   printf("%s",get_next_line(fd2));
+   printf("%s",get_next_line(fd2));
+   printf("%s",get_next_line(fd2));
+   printf("%s",get_next_line(fd2));
+   printf("%s",get_next_line(fd1));
+   printf("%s",get_next_line(fd1));
+   printf("%s",get_next_line(fd1));
+   printf("%s",get_next_line(fd1));
+   printf("%s",get_next_line(fd1));
+   printf("%s",get_next_line(fd2));
+
 }

@@ -6,7 +6,7 @@
 /*   By: jbelkerf <jbelkerf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 13:22:23 by jbelkerf          #+#    #+#             */
-/*   Updated: 2024/11/15 14:21:57 by jbelkerf         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:13:11 by jbelkerf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*do_the_job(char **left, char **line, int separator, int f)
 		tmp = *line;
 		*line = ft_substr(tmp, 0, separator);
 		*left = ft_substr(tmp, separator, BUFFER_SIZE);
+		if (**left == 0)
+			free_p(left);
 	}
 	return (free(tmp), tmp = NULL, *line);
 }
@@ -95,7 +97,8 @@ void free_node(int fd, t_list **head)
             {
                 prev->next = m_in->next;
             }
-            free(m_in);
+			free(m_in->left);
+			free(m_in);
 			return ;
         }
         prev = m_in;
@@ -143,10 +146,10 @@ char *get_next_line(int fd)
     if (check_left(left, &line))
 		return (line);
 	line = read_line(fd, buffer, line, left, &head);
-	if (*left != NULL)
-	{
-		if (**left == 0)
-			free_p(left);
-	}
+	// if (*left != NULL)
+	// {
+	// 	if (**left == 0)
+	// 		free_p(left);
+	// }
 	return (line);
 }
